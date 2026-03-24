@@ -18,9 +18,10 @@ void main() {
       expect(content, isNot(contains('BuildContext')));
       expect(content, isNot(contains('LocalizationsDelegate')));
       expect(content, isNot(contains('Locale.fromSubtags')));
-      expect(content, contains('static const List<String> supportedLocales'));
+      expect(content, contains('static final List<String> supportedLocales'));
       expect(content, contains("    'en',"));
       expect(content, contains("    'en_GB',"));
+      expect(content, contains('.map(Intl.canonicalizedLocale).toList(growable: false);'));
       expect(content, contains('static Future<S> load(String locale)'));
       expect(content, contains('static bool isSupported(String locale)'));
     });
@@ -40,6 +41,10 @@ void main() {
       expect(
         content,
         contains('Future<bool> initializeMessages(String localeName) async {'),
+      );
+      expect(
+        content,
+        contains('initializeInternalMessageLookup(() => CompositeMessageLookup());'),
       );
     });
   });

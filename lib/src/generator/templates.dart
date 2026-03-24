@@ -30,9 +30,10 @@ class $className {
     return _current!;
   }
 
-  static const List<String> supportedLocales = <String>[
+  static final List<String> supportedLocales =
+      <String>[
 ${locales.map((locale) => _generateSupportedLocale(locale)).join("\n")}
-  ];
+      ].map(Intl.canonicalizedLocale).toList(growable: false);
 
   static Future<$className> load(String locale) {
     final localeName = Intl.canonicalizedLocale(locale);${otaEnabled ? '\n${_generateMetadataSetter()}' : ''}

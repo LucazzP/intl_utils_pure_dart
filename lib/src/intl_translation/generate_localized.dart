@@ -328,7 +328,7 @@ Future<bool> initializeMessages(String localeName) async {
   }
   var lib = _deferredLibraries[availableLocale];
   await (lib == null ? Future.value(false) : lib());
-  initializeInternalMessageLookup(() => new CompositeMessageLookup());
+  initializeInternalMessageLookup(() => CompositeMessageLookup());
   messageLookup.addLocale(availableLocale, _findGeneratedMessagesFor);
   return true;
 }
