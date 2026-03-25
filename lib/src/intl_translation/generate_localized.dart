@@ -272,7 +272,7 @@ ${releaseMode ? overrideLookup : ''}""";
       var loadOperation =
           (useDeferredLoading)
               ? "  '$locale': ${libraryName(locale)}.loadLibrary,\n"
-              : "  '$locale': () => new SynchronousFuture(null),\n";
+              : "  '$locale': () => Future.value(null),\n";
       output.write(loadOperation);
     }
     output.write('};\n');
@@ -305,7 +305,6 @@ ${releaseMode ? overrideLookup : ''}""";
 // ignore_for_file:comment_references
 
 import 'dart:async';
-${useDeferredLoading ? '' : "\nimport 'package:flutter/foundation.dart';"}
 import 'package:$intlImportPath/intl.dart';
 import 'package:$intlImportPath/message_lookup_by_library.dart';
 import 'package:$intlImportPath/src/intl_helpers.dart';
@@ -319,19 +318,19 @@ import 'package:$intlImportPath/src/intl_helpers.dart';
 }
 
 /// User programs should call this before using [localeName] for messages.
-Future<bool> initializeMessages(String localeName) ${useDeferredLoading ? 'async ' : ''}{
+Future<bool> initializeMessages(String localeName) async {
   var availableLocale = Intl.verifiedLocale(
     localeName,
     (locale) => _deferredLibraries[locale] != null,
     onFailure: (_) => null);
   if (availableLocale == null) {
-    return ${useDeferredLoading ? 'new Future.value(false)' : 'new SynchronousFuture(false)'};
+    return false;
   }
   var lib = _deferredLibraries[availableLocale];
-  ${useDeferredLoading ? 'await (lib == null ? new Future.value(false) : lib());' : 'lib == null ? new SynchronousFuture(false) : lib();'}
-  initializeInternalMessageLookup(() => new CompositeMessageLookup());
+  await (lib == null ? Future.value(false) : lib());
+  initializeInternalMessageLookup(() => CompositeMessageLookup());
   messageLookup.addLocale(availableLocale, _findGeneratedMessagesFor);
-  return ${useDeferredLoading ? 'new Future.value(true)' : 'new SynchronousFuture(true)'};
+  return true;
 }
 
 bool _messagesExistFor(String locale) {

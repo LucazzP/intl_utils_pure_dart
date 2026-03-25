@@ -3,7 +3,7 @@
 [![pub package](https://img.shields.io/pub/v/intl_utils.svg)](https://pub.dev/packages/intl_utils)
 [![Twitter Follow](https://img.shields.io/twitter/follow/localizely?label=Follow%20us&style=social)](https://twitter.com/intent/follow?screen_name=localizely)
 
-Dart package that creates a binding between your translations from .arb files and your Flutter app. It generates boilerplate code for official Dart Intl library and adds auto-complete for keys in Dart code.
+Dart package that creates a binding between your translations from .arb files and your Dart app. It generates boilerplate code for the official Dart Intl library and adds auto-complete for keys in Dart code, without Flutter or `dart:ui` imports in the generated files.
 
 ## Usage
 
@@ -39,7 +39,7 @@ flutter_intl:
 
 ### Add ARB files
 
-Add one ARB file for each locale you need to support in your Flutter app.
+Add one ARB file for each locale you need to support in your Dart app.
 Add them to `lib/l10n` folder inside your project, and name them in a following way: `intl_<LOCALE_ISO_CODE>.arb`.  
 For example: `intl_en.arb` or `intl_en_GB.arb`.
 You can also change the ARB folder from `lib/l10n` to a custom directory by adding the `arb_dir` line in your `pubspec.yaml` file.
@@ -54,6 +54,7 @@ To generate boilerplate code for localization, run the `generate` program inside
 
 This will produce files inside `lib/generated` directory.
 You can also change the output folder from `lib/generated` to a custom directory by adding the `output_dir` line in your `pubspec.yaml` file.
+The generated localization class exposes `load(String locale)` and `supportedLocales` as locale strings so it can be used in pure Dart projects.
 
 ### Integration with Localizely
 
